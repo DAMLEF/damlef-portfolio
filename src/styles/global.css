@@ -1,0 +1,281 @@
+/* =============================================================================
+   GLOBAL STYLES — Damien LEFEUVRE // Portfolio
+   Design language:
+   - Pulp sci-fi (Amazing Stories 1930s) : bold display serifs, cream parchment,
+     pulp red & yellow accents.
+   - Cyberpunk : deep purple/black voids, cyan & magenta neon, subtle scanlines.
+   - Diegetic prog-friendly HUD (terminal typography, coordinates, timestamps).
+   Everything user-facing lives in /src/i18n/translations.js.
+   ============================================================================= */
+
+/* ----- 1. Design Tokens ---------------------------------------------------- */
+:root {
+  /* Void palette (background) */
+  --void-0: #05030c;
+  --void-1: #0a0612;
+  --void-2: #140a24;
+  --void-3: #1e1236;
+
+  /* Pulp palette (Amazing Stories inspiration) */
+  --parchment: #f2e8c8;
+  --parchment-dim: #d8caa0;
+  --pulp-yellow: #f5c518;
+  --pulp-yellow-deep: #c99a0e;
+  --pulp-red: #d2492b;
+  --pulp-red-deep: #8f2618;
+
+  /* Cyberpunk neon */
+  --neon-cyan: #45f0ff;
+  --neon-cyan-soft: #7cf9ff;
+  --neon-magenta: #ff2bd6;
+  --neon-magenta-soft: #ff8feb;
+  --terminal-green: #7cf29c;
+
+  /* Semantic */
+  --bg: var(--void-1);
+  --fg: var(--parchment);
+  --fg-dim: rgba(242, 232, 200, 0.62);
+  --accent: var(--pulp-yellow);
+  --accent-2: var(--neon-cyan);
+  --danger: var(--pulp-red);
+
+  /* Typography */
+  --font-display: 'Rye', 'Georgia', serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --font-body: 'Space Grotesk', system-ui, sans-serif;
+
+  /* Motion */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Layers */
+  --z-scene: 0;
+  --z-hud: 10;
+  --z-intro: 20;
+  --z-modal: 30;
+  --z-crt: 40;
+  --z-glitch: 41;
+}
+
+/* ----- 2. Reset ------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+html {
+  background: var(--void-0);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255, 43, 214, 0.08), transparent 55%),
+    radial-gradient(ellipse at 85% 90%, rgba(69, 240, 255, 0.08), transparent 55%),
+    linear-gradient(180deg, var(--void-1), var(--void-0) 80%);
+  overscroll-behavior: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--pulp-yellow);
+  color: var(--void-0);
+}
+
+/* ----- 3. CRT / Scanline / Vignette overlay ------------------------------- */
+/* Very subtle — should feel like a "beautiful grain", never obstruct content. */
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: var(--z-crt);
+  mix-blend-mode: overlay;
+  opacity: 0.55;
+}
+
+.crt-overlay::before {
+  /* Ultra-thin horizontal scanlines */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.04) 0px,
+    rgba(255, 255, 255, 0.04) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.crt-overlay::after {
+  /* Deep vignette + soft chromatic bleed */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 45%,
+      rgba(0, 0, 0, 0.55) 100%
+    );
+}
+
+.crt-noise {
+  position: fixed;
+  inset: -20%;
+  pointer-events: none;
+  z-index: var(--z-glitch);
+  opacity: 0.05;
+  mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.9'/></svg>");
+  animation: crt-noise 0.6s steps(4) infinite;
+}
+
+@keyframes crt-noise {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-2%, 1%); }
+  50%  { transform: translate(1%, -1%); }
+  75%  { transform: translate(-1%, -2%); }
+  100% { transform: translate(2%, 1%); }
+}
+
+/* Occasional glitch flicker on the whole app root */
+.app-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  animation: crt-flicker 6s infinite steps(2);
+}
+
+@keyframes crt-flicker {
+  0%, 96%, 100% { filter: none; }
+  97%           { filter: hue-rotate(-3deg) contrast(1.05); transform: translateX(0.5px); }
+  98%           { filter: hue-rotate(3deg)  contrast(0.98); transform: translateX(-0.5px); }
+}
+
+/* ----- 4. Utility classes ------------------------------------------------- */
+.mono { font-family: var(--font-mono); }
+.display { font-family: var(--font-display); }
+.tracked { letter-spacing: 0.18em; text-transform: uppercase; }
+.tracked-tight { letter-spacing: 0.06em; text-transform: uppercase; }
+
+.neon-cyan {
+  color: var(--neon-cyan);
+  text-shadow:
+    0 0 6px rgba(69, 240, 255, 0.65),
+    0 0 18px rgba(69, 240, 255, 0.35);
+}
+.neon-magenta {
+  color: var(--neon-magenta);
+  text-shadow:
+    0 0 6px rgba(255, 43, 214, 0.65),
+    0 0 18px rgba(255, 43, 214, 0.35);
+}
+.neon-pulp {
+  color: var(--pulp-yellow);
+  text-shadow:
+    0 0 6px rgba(245, 197, 24, 0.35),
+    0 0 18px rgba(245, 197, 24, 0.18);
+}
+
+/* Glitch text — used sparingly (e.g. main title) */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+.glitch::before {
+  color: var(--neon-magenta);
+  transform: translate(1px, 0);
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  animation: glitch-shift 4s infinite steps(2);
+  opacity: 0.75;
+}
+.glitch::after {
+  color: var(--neon-cyan);
+  transform: translate(-1px, 0);
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+  animation: glitch-shift 4s infinite steps(2) reverse;
+  opacity: 0.75;
+}
+@keyframes glitch-shift {
+  0%, 90%, 100% { transform: translate(0, 0); }
+  92%           { transform: translate(2px, -1px); }
+  94%           { transform: translate(-2px, 1px); }
+  96%           { transform: translate(1px, 2px); }
+}
+
+/* Fine cyberpunk divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--neon-cyan) 20%,
+    var(--pulp-yellow) 50%,
+    var(--neon-magenta) 80%,
+    transparent
+  );
+  opacity: 0.55;
+}
+
+/* Scrollbar in modals */
+.scroll {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-cyan) transparent;
+}
+.scroll::-webkit-scrollbar { width: 6px; }
+.scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--neon-cyan), var(--neon-magenta));
+  border-radius: 3px;
+}
+
+/* ----- 5. Focus + accessibility ------------------------------------------ */
+:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
