@@ -89,6 +89,7 @@ export default function MusicToggle() {
 
 
   src = CANDIDATES[0];
+  console.log(src)
 
   const muted = state.musicMuted;
   const label = muted
