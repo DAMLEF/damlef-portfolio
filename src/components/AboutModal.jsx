@@ -47,7 +47,7 @@ export default function AboutModal() {
           <div className="modal__header-actions">
             <a
               className="modal__cv-btn"
-              href="/cv/cv-damien-lfm.pdf"
+              href="/damlef-portfolio/cv/cv-damien-lfm.pdf"
               download
               aria-label={t.ui?.downloadCv ?? 'Download CV (PDF)'}
             >

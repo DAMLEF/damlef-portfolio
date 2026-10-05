@@ -13,7 +13,7 @@ import { useGame } from '../state/GameContext.jsx';
 import { projects as projectsData } from '../data/projects.js';
 import { LANGUAGES } from '../i18n/translations.js';
 
-const CV_PDF_PATH = '/cv/cv-damien-lfm.pdf';
+const CV_PDF_PATH = '/damlef-portfolio/cv/cv-damien-lfm.pdf';
 
 export default function TextCV() {
   const { state, t, setLanguage } = useGame();

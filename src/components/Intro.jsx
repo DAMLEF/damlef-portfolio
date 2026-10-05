@@ -90,7 +90,7 @@ export default function Intro() {
         <div className="intro__shortcuts">
           <a
             className="intro__shortcut"
-            href="/cv/cv-damien-lfm.pdf"
+            href="/damlef-portfolio/cv/cv-damien-lfm.pdf"
             download
           >
             ▾ {t.intro.pdfCvCta}
