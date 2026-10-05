@@ -19,7 +19,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useGame } from '../state/GameContext.jsx';
 
 const CANDIDATES = [
-  'damlef-portfolio/audio/theme.wav',
+  '/damlef-portfolio/audio/theme.wav',
 ];
 
 export default function MusicToggle() {
