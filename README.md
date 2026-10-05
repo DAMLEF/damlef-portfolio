@@ -22,40 +22,6 @@ Prérequis : **Node.js ≥ 18**.
 
 Souris : cliquer sur une station l'ouvre directement. En Mode Jeu, cliquer au sol pose un bloc coloré style Minecraft.
 
----
-
-## ✏️ Où éditer le contenu
-
-Tout est centralisé dans **deux** fichiers :
-
-### 1. Textes (FR + EN) — `src/i18n/translations.js`
-Un seul fichier, deux blocs `fr` et `en` parfaitement symétriques.  
-Modifie les phrases, ajoute des paragraphes, change les tags. La langue se change dans le HUD en haut à droite (bouton FR / EN).
-
-Pour ajouter une **3e langue** :
-1. Duplique le bloc `fr`, renomme-le (`de`, `es`, …).
-2. Ajoute le code dans `LANGUAGES` en haut du fichier.
-3. Traduis les valeurs.
-
-### 2. Données des projets — `src/data/projects.js`
-Positions dans la scène, couleurs, liens externes, chemins vidéo, objet-récompense.  
-Chaque `id` renvoie vers `translations.<lang>.projects.<id>`.
-
-### 3. Vidéos des projets — `public/videos/<id>.mp4`
-Le composant `ProjectModal` charge automatiquement `/videos/<id>.mp4`.  
-Si le fichier n'existe pas encore, un joli placeholder « Insérer la vidéo » s'affiche à la place (avec le filtre CRT dessus). Aucun bug, aucune casse.
-
-Fichiers attendus (facultatifs) :
-```
-public/videos/minecraft.mp4
-public/videos/utopex.mp4
-public/videos/facerehab.mp4
-public/videos/vrtower.mp4
-public/videos/aiportal.mp4
-```
-
----
-
 ## 🧭 Architecture
 
 ```
