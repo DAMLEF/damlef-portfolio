@@ -169,4 +169,4 @@ Fonts :
 **Damien LEFEUVRE** — Étudiant ingénieur Centrale (Nantes & Marseille) · 23 ans  
 ✉ `damien.lefeuvre0@gmail.com` · GitHub `DAMLEF` · LinkedIn `damien-lefeuvre-2b2296297`
 
-_Powered by curiosité & caféine._
+_
