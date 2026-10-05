@@ -3,30 +3,11 @@
 Un portfolio-plateau où chaque projet est une petite station 3D à visiter.  
 Mélange volontaire : **pulp SF 1930** (Amazing Stories) × **cyberpunk** × **CRT subtil** × **Three.js**.
 
-> _« Ce n'est pas un CV. C'est un prototype de futur. »_
-
 ---
 
 ## ⚡ Démarrage rapide
 
 Prérequis : **Node.js ≥ 18**.
-
-```bash
-# Depuis la racine du projet
-npm install
-npm run dev
-```
-
-Le site s'ouvre sur `http://localhost:5173`.
-
-Build de production :
-
-```bash
-npm run build
-npm run preview
-```
-
----
 
 ## 🎮 Contrôles
 
@@ -71,7 +52,6 @@ public/videos/utopex.mp4
 public/videos/facerehab.mp4
 public/videos/vrtower.mp4
 public/videos/aiportal.mp4
-public/videos/about.mp4
 ```
 
 ---
