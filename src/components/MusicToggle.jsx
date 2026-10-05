@@ -25,7 +25,7 @@ const CANDIDATES = [
 export default function MusicToggle() {
   const { state, t, toggleMusic } = useGame();
   const audioRef = useRef(null);
-  const [src, setSrc] = useState(null);
+  let [src, setSrc] = useState(null);
 
   // 1. Probe candidate files (HEAD). Pick the first one that responds OK.
   useEffect(() => {
@@ -87,8 +87,8 @@ export default function MusicToggle() {
     };
   }, [src, state.musicMuted, state.introOpen]);
 
-  console.log(src)
-  if (!src) return null;
+
+  src = CANDIDATES[0];
 
   const muted = state.musicMuted;
   const label = muted
